@@ -825,6 +825,7 @@ class RasterArray(XRasterBase):
         recalc_transform=True,
         lock=None,
         compute=True,
+        overviews=None,
         **profile_kwargs,
     ):
         """
@@ -920,5 +921,6 @@ class RasterArray(XRasterBase):
             windowed=windowed,
             lock=lock,
             compute=compute,
+            overviews=overviews,
             **out_profile,
         )

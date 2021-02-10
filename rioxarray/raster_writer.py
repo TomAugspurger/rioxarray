@@ -124,7 +124,9 @@ class RasterioWriter:
         with rasterio.open(self.raster_path, "r+") as rds:
             rds.write(item, window=Window(chx_off, chy_off, chx, chy), indexes=indexes)
 
-    def to_raster(self, xarray_dataarray, tags, windowed, lock, compute, **kwargs):
+    def to_raster(
+        self, xarray_dataarray, tags, windowed, lock, compute, overviews=None, **kwargs
+    ):
         """
         This method writes to the raster on disk.
 
@@ -170,6 +172,8 @@ class RasterioWriter:
                         rds.write(data, 1, window=window)
                     else:
                         rds.write(data, window=window)
+            if overviews is not None:
+                rds.build_overviews(overviews)
 
         if lock and is_dask_collection(xarray_dataarray.data):
             if xarray_dataarray.rio.encoded_nodata is not None:
